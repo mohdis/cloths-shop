@@ -21,12 +21,15 @@ const provider = new firebase.auth.GoogleAuthProvider()
 provider.setCustomParameters({
   prompt: 'select_account',
 })
+export const googleAuthSignin = () => auth.signInWithPopup(provider)
+
 export const createUserDocument = async (userAuth, ...otherParameters) => {
   if (!userAuth) return
 
   const docRefrence = await firestore.doc(`users/${userAuth.uid}`)
   const snapshot = await docRefrence.get()
   console.log(snapshot)
+
   if (!snapshot.exits) {
     const { displayName, email } = userAuth
     const createdAt = new Date()
@@ -43,5 +46,4 @@ export const createUserDocument = async (userAuth, ...otherParameters) => {
     return docRefrence
   }
 }
-export const googleAuthSignin = () => auth.signInWithPopup(provider)
 export default firebase
