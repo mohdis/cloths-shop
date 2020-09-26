@@ -17,11 +17,20 @@ firebase.initializeApp(config)
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 
-const provider = new firebase.auth.GoogleAuthProvider()
-provider.setCustomParameters({
+export const googleProvider = new firebase.auth.GoogleAuthProvider()
+googleProvider.setCustomParameters({
   prompt: 'select_account',
 })
-export const googleAuthSignin = () => auth.signInWithPopup(provider)
+
+export const googleAuthSignin = () => auth.signInWithPopup(googleProvider)
+
+export const checkCurrentUser = () =>
+  new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe()
+      resolve(userAuth)
+    }, reject)
+  })
 
 export const createUserDocument = async (userAuth, ...otherParameters) => {
   if (!userAuth) return
@@ -46,4 +55,39 @@ export const createUserDocument = async (userAuth, ...otherParameters) => {
     return docRefrence
   }
 }
+
+export const addCollectionsAndDocuments = async (collectionName, documents) => {
+  const collectionRefrence = firestore.collection(collectionName)
+
+  const batch = firestore.batch()
+
+  documents.forEach((document) => {
+    const newDocumentRefrence = collectionRefrence.doc()
+    batch.set(newDocumentRefrence, document)
+  })
+  return await batch.commit()
+}
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data()
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    }
+  })
+
+  const collectionMap = transformedCollection.reduce(
+    (accumulatore, collection) => {
+      accumulatore[collection.title.toLowerCase()] = collection
+      return accumulatore
+    },
+    {}
+  )
+
+  return collectionMap
+}
+
 export default firebase

@@ -1,7 +1,12 @@
 .sign-up {
-    width: 380px;
+  width: 380px;
 
-    .title {
-        margin-bottom: 30px 0px;
-    }
+  .title {
+    margin-bottom: 30px;
+  }
+}
+@media screen and (max-width: 748px) {
+  .sign-up {
+    width: 80%;
+  }
 }

@@ -1,10 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { ReactComponent as Logo } from '../../assets/crown.svg'
-import { auth } from '../../firebase/firebase.utils'
+
 import './header.style.scss'
 
-const Header = ({ currentUser }) => {
+import { ReactComponent as Logo } from '../../assets/crown.svg'
+
+import CardIcon from '../card-icon/card-icon.component'
+import CardDropdown from '../card-dropdown/card-dropdown.component'
+
+const Header = ({ currentUser, hidden, signOutStart }) => {
   return (
     <div className="header">
       <Link to="/">
@@ -20,15 +24,17 @@ const Header = ({ currentUser }) => {
           contact
         </Link>
         {currentUser ? (
-          <div onClick={() => {
-            auth.signOut()
-          }} className='option'>Sign out</div>
+          <div onClick={signOutStart} className="option">
+            Sign out
+          </div>
         ) : (
-            <Link className="option" to="/sign">
-              sign in
-            </Link>
-          )}
+          <Link className="option" to="/sign">
+            sign in
+          </Link>
+        )}
+        <CardIcon />
       </div>
+      {hidden ? null : <CardDropdown />}
     </div>
   )
 }

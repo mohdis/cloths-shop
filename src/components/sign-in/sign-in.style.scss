@@ -1,7 +1,22 @@
 .sign-in {
-    width: 380px;
+  width: 380px;
 
-    .title {
-        margin-bottom: 30px 0px;
+  .signin-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+  .title {
+    margin-bottom: 30px;
+  }
+}
+@media screen and (max-width: 748px) {
+  .sign-in {
+    width: unset;
+    .signin-buttons {
+      flex-direction: column;
+      .custom-button {
+        margin-bottom: 10px;
+      }
     }
+  }
 }

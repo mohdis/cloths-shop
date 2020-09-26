@@ -1,4 +1,48 @@
-export const setCurrentUser = user => ({
-    type: 'SET_CURRENT_USER',
-    payload: user
+import userActionTypes from './user.types'
+
+export const googleSignInStart = () => ({
+  type: userActionTypes.GOOGLE_SIGN_IN_START,
+})
+
+export const emailSignInStart = (emailAndPassword) => ({
+  type: userActionTypes.EMAIL_SIGN_IN_START,
+  payload: emailAndPassword,
+})
+
+export const signInSuccess = (user) => ({
+  type: userActionTypes.SIGN_IN_SUCCESS,
+  payload: user,
+})
+
+export const signInFailure = (error) => ({
+  type: userActionTypes.SIGN_IN_FAILURE,
+  payload: error,
+})
+
+export const signOutStart = () => ({
+  type: userActionTypes.SIGN_OUT_START,
+})
+export const signOutSuccess = () => ({
+  type: userActionTypes.SIGN_OUT_SUCCESS,
+})
+export const signOutFailure = (error) => ({
+  type: userActionTypes.SIGN_OUT_FAILURE,
+  payload: error,
+})
+
+export const checkUserSesstion = () => ({
+  type: userActionTypes.CHECK_USER_SESSTION,
+})
+
+export const signUpStart = (userSignUpInfo) => ({
+  type: userActionTypes.SIGN_UP_START,
+  payload: userSignUpInfo,
+})
+export const signUpSuccess = (emailAndPassword) => ({
+  type: userActionTypes.SIGN_UP_SUCCESS,
+  payload: emailAndPassword,
+})
+export const signUpFailure = (error) => ({
+  type: userActionTypes.SIGN_UP_FAILURE,
+  payload: error,
 })
